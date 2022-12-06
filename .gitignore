@@ -1,8 +1,4 @@
-*.amltmp
-data
-**/data/
-**/images
-**/.ipynb_aml_checkpoints/
-*.amlignore
+**/*.amltmp
+**/*.ipynb_aml_checkpoints/
+**/*.amlignore
 **/__pycache__
-**/dataCIFAR10
