@@ -14,10 +14,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 
-class AugmentData():
+class DataAugClass():
     
-    def __init__(self, root, csv_file, img_dir, msk_dir):
-        root = root
+    def __init__(self, csv_file, img_dir, msk_dir):
         csv_file = csv_file
         self.filenames = [p[0] for p in csv_file]
         self.img_dir = img_dir
@@ -25,6 +24,15 @@ class AugmentData():
         
 
     def applyDataAug(self, n):
+
+        """
+        Takes as input list of the image filenames to be augmented, the paths where the images and the masks are stored from the class DataAugClass. 
+        Applies augmentation on an image to produce N new images that are saved with their respective masks in the same folder.
+
+        Args:
+            - n (int): number of new image to be created with the augmentation
+
+        """
         
         for f in tqdm(self.filenames):
             
@@ -39,6 +47,17 @@ class AugmentData():
             self.saveResults(augmented, f)
     
     def augment(self, image, segmap, n):
+
+        """
+        Applies augmentation on an image and its mask to produce N new images and masks.
+
+        Args:
+            - image: PIL image.
+            - segmap: object representing a segmentation map associated with the image.
+            
+        Outputs:
+            - augmented
+        """
         
         sometimes = lambda x: iaa.Sometimes(0.5, x)
         seq = iaa.Sequential(
@@ -71,10 +90,12 @@ class AugmentData():
                 ],
                 random_order=False
         )
+
         augmented = [seq(image=image, segmentation_maps=segmap) for _ in range(n)]
         return augmented
     
     def saveResults(self, augmented, fn):
+
         for i in np.arange(len(augmented)):
             img_res = Image.fromarray(augmented[i][0].astype('uint8'), 'RGB')
             mask_res = Image.fromarray(np.array(augmented[i][1].get_arr()).astype('uint8')*255, 'RGB')
