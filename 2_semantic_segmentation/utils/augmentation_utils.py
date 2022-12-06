@@ -16,7 +16,7 @@ import pandas as pd
 
 class AugmentData():
     
-    def __init__(self, root, csv_file, img_dir, msk_dir, out_dir):
+    def __init__(self, root, csv_file, img_dir, msk_dir):
         root = root
         csv_file = csv_file
         self.filenames = [p[0] for p in csv_file]
@@ -48,7 +48,7 @@ class AugmentData():
                     iaa.Flipud(0.5), # vertically flip 50% of all images
                     
                     sometimes(iaa.Affine(
-                        rotate=(-45,45), # rotate by -45 to 45 degrees
+                        rotate=(-45,45), # rotate by 45 to 135 degrees
                         order=[0, 1], # use nearest neighbour or bilinear interpolation (fast)
                     )),
 
@@ -91,9 +91,9 @@ class AugmentData():
         
         arr = np.array(img)
         cond = np.logical_and(arr[:,:,0] == arr[:,:,1], arr[:,:,0] == arr[:,:,2])
-        X, Y = np.nonzero(np.invert(cond))
-        xmin, ymin = X[0], Y[0]
-        xmax, ymax = X[-1], Y[-1]
+        loc = np.nonzero(np.invert(cond))
+        xmin, xmax = min(loc[0]), max(loc[0])
+        ymin, ymax =  min(loc[1]), max(loc[1])
         return xmin, ymin, xmax, ymax
                 
     def cropImg(self, img, xmin, ymin, xmax, ymax):
