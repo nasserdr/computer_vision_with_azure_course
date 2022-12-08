@@ -10,7 +10,7 @@ from torch.utils.data.dataset import IterableDataset
 from abc import ABC, abstractmethod
 
 
-class CustomDataset(IterableDataset):
+class TrainingDataset(IterableDataset):
     
     def __init__(self, input_fns, target_fns, dataset_info, verbose = False):
         super().__init__()
