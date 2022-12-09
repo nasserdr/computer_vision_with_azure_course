@@ -2,3 +2,4 @@
 **/*.ipynb_aml_checkpoints/
 **/*.amlignore
 **/__pycache__
+wandb/
