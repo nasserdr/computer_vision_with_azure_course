@@ -3,3 +3,4 @@
 **/*.amlignore
 **/__pycache__
 wandb/
+models/
