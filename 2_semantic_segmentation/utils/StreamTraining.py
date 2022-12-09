@@ -100,7 +100,6 @@ class TrainingDataset(IterableDataset):
 
         Args:
             - data (list of (list of) tensors): input and target data
-            - num_skipped_patches (int): current number of skipped patches (will be updated)
             - coord: top left coordinates of the patch to extract, in the coarsest modality
 
         Output:
@@ -142,4 +141,3 @@ class TrainingDataset(IterableDataset):
         patches = [input_patches, target_patch]
 
         return (patches, 0, (x, y))
-        

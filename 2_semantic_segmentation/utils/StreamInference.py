@@ -1,5 +1,4 @@
 import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -8,7 +7,7 @@ from skimage.exposure import match_histograms
 
 from scipy.interpolate import UnivariateSpline
 
-class StreamInference():
+class InferenceDataset():
     
     def __init__(self, dataset_info, img_fn, target_fn = None):
         

@@ -15,7 +15,7 @@ from .eval_utils import my_confusion_matrix, rates2metrics, cm2rates
 # setting path
 sys.path.append(os.getcwd() + '../dataset')
 
-from dataset import StreamInference
+from .StreamInference import InferenceDataset
 import torchvision.transforms as T
 import numpy as np
 
@@ -24,7 +24,6 @@ class Inference():
     def __init__(self, model, dataset_info, save_out = False):
         # Define predictions averaging kernel
         self.kernel = dataset_info.get_inference_kernel()
-        self.model_name = dataset_info.model_name
         self.dataset_info = dataset_info
         self.device = dataset_info.device
         self.model = model
@@ -73,7 +72,7 @@ class Inference():
                 output[:, x:(x+self.patch_size), y:(y+self.patch_size)] += a_output[j] * self.kernel[...,:,:] #a_output[n]
                 counts[x:(x+self.patch_size), y:(y+self.patch_size)] += self.kernel
         # normalize the accumulated predictions
-        counts = np.repeat(np.expand_dims(counts, axis = 0), self.dataset_info.output_channels, axis = 0)
+        counts = np.repeat(np.expand_dims(counts, axis = 0), self.dataset_info.n_classes, axis = 0)
         output[counts != 0] = output[counts != 0] / counts[counts != 0] # avoid zero-division
         if criterion:
             avg_loss = np.mean(val_losses)
@@ -109,7 +108,7 @@ class Inference():
         
         for n, fn in progress_bar:
             
-            stream_data = StreamInference(self.dataset_info, fn, target_fns[n])
+            stream_data = InferenceDataset(self.dataset_info, fn, target_fns[n])
             target = stream_data.target
             if criterion:
                 output, val_loss = self._infer_sample(stream_data.patches, stream_data.patch_coordinates, target, criterion)
