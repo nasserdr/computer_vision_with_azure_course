@@ -226,32 +226,6 @@ def get_model(num_classes = 2):
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     return model
 
-def train_batch(inputs, model, optimizer):
-    model.train()
-    input, targets = inputs
-    input = list(image.to(device) for image in input)
-    targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
-    optimizer.zero_grad()
-    losses = model(input, targets)
-    loss = sum(loss for loss in losses.values())
-    loss = Variable(loss, requires_grad = True)
-    loss.backward()
-    optimizer.step()
-    return loss, losses
-
-@torch.no_grad() # this will disable gradient computation in the function below
-def validate_batch(inputs, model):
-    model.train() # to obtain the losses, model needs to be in train mode only. # #Note that here we are not defining the model's forward method 
-#and hence need to work per the way the model class is defined
-    input, targets = inputs
-    input = list(image.to(device) for image in input)
-    targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
-
-    optimizer.zero_grad()
-    losses = model(input, targets)
-    loss = sum(loss for loss in losses.values())
-    loss = Variable(loss, requires_grad = True)
-    return loss, losses
 
 def decode_output(output):
     'convert tensors to numpy arrays'
