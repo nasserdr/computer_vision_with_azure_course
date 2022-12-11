@@ -3,4 +3,4 @@
 **/*.amlignore
 **/__pycache__
 wandb/
-models/
+1_object_detection/remarks.txt
