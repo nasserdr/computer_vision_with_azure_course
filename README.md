@@ -1,7 +1,7 @@
 # Computer Vision with Azure Workshop
 ## Agroscope - Liebefield (13, 15 and 16 December 2022).
 The goal from this workshop is to give you the starting point tools to implement computer vision projects on real dataset. We will focus on:
-* Object detection
+* Two-Stages Object detection
 * Semantic segmentation
 * Azure Machine Learning
 * Computer Vision in Production
