@@ -119,7 +119,6 @@ class RumexDataSetLabelBox(Dataset):
         self.annotations_df = annotations_df
         self.root = images_home
         self.list_image = list(annotations_df['External ID'])
-        #print(self.list_image)
         self.transforms = transforms
         self.datalength = len(self.list_image)
    
