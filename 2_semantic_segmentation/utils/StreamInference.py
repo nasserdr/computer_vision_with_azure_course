@@ -15,7 +15,8 @@ class InferenceDataset():
         self.img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
         if target_fn != None:
-            self.tar = dataset_info.rescale(cv2.imread(target_fn)) #self.rescale(Image.open(target_fn))
+            self.tar = dataset_info.rescale(cv2.imread(target_fn))
+            
         self.height, self.width = self.img.shape[:2]
         self.patch_size = dataset_info.patch_size 
         self.padding = dataset_info.padding
